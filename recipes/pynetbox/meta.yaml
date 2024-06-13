@@ -1,0 +1,43 @@
+{% set name = "pynetbox" %}
+{% set version = "7.3.3" %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/pynetbox-{{ version }}.tar.gz
+  sha256: b0bcef4c3a019516d2425ae0ce5509eae7f4f11ad4510c9fe9527d468f22529b
+
+build:
+  noarch: python
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 0
+
+requirements:
+  host:
+    - python
+    - setuptools-scm
+    - pip
+  run:
+    - python
+    - requests >=2.20.0,<3.0
+    - packaging <24.0
+
+test:
+  imports:
+    - pynetbox
+  commands:
+    - pip check
+  requires:
+    - pip
+
+about:
+  home: https://github.com/netbox-community/pynetbox
+  summary: NetBox API client library
+  license: Apache-2.0
+  license_file: LICENSE
+
+extra:
+  recipe-maintainers:
+    - aaronhuff
